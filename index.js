@@ -37,14 +37,14 @@ app.post("/upload", function(req, res) {
     //avatar.mv("./uploads/" + avatar.name);
     console.log(req.files.filedata);
     console.log(fpath);
-    res.status(200).send(fpath);
+    res.send(req.files);
+    //res.status(200).send(fpath);
     //res.send("hello world");
   }
   //console.log(req.files); // the uploaded file object
 });
 
 // upoad single file
-
 
 //make uploads directory static
 //app.use(express.static('uploads'));
