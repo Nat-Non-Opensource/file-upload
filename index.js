@@ -38,7 +38,7 @@ app.post("/upload", function(req, res) {
     console.log(req.files.filedata);
     console.log(fpath);
     //res.send(req.files);
-    res.status(200).send(fpath);
+    res.status(200).send(fname);
     //res.send("hello world");
   }
   //console.log(req.files); // the uploaded file object
