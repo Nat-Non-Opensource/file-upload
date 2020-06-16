@@ -40,8 +40,8 @@ app.post("/upload", function(req, res) {
     console.log(fpath);
     let u = `https://demo.humanist.cc/${fname}.wav`;
     let t = 1;
-    let lat = "18.7833491";
-    let lng = "98.986756";
+    let lat = req.query.lat;
+    let lng = req.query.lng;
     var options = {
       host: "us-central1-vuemap-1.cloudfunctions.net",
       path: `/sample?url=${u}&lat=${lat}&lng=${lng}&type=${t}`
