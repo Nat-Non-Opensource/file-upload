@@ -35,7 +35,8 @@ app.post("/upload", function(req, res) {
   req.files.filedata.mv(fpath);
   //avatar.mv("./uploads/" + avatar.name);
   console.log(req.files.filedata);
-  res.send(fpath);
+  console.log(fpath);
+  res.status(200).send(fpath);
   //console.log(req.files); // the uploaded file object
 });
 
