@@ -47,7 +47,7 @@ app.post("/upload", function(req, res) {
 
     var options = {
       host: "us-central1-vuemap-1.cloudfunctions.net",
-      path: `sample?url=${u}&lat=${lat}&lng=${lng}&type=${t}`
+      path: `/sample?url=${u}&lat=${lat}&lng=${lng}&type=${t}`
     };
 
     callback = function(response) {
