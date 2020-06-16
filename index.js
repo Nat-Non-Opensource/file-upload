@@ -30,13 +30,15 @@ app.post("/upload", function(req, res) {
       status: false,
       message: "No file uploaded"
     });
+  } else {
+    let fname = `${new Date().getTime()}`;
+    let fpath = `./uploads/${fname}.wav`;
+    req.files.filedata.mv(fpath);
+    //avatar.mv("./uploads/" + avatar.name);
+    console.log(req.files.filedata);
+    console.log(fpath);
+    res.status(200).send(fpath);
   }
-  let fpath = `./uploads/${new Date().getTime()}.wav`;
-  req.files.filedata.mv(fpath);
-  //avatar.mv("./uploads/" + avatar.name);
-  console.log(req.files.filedata);
-  console.log(fpath);
-  res.status(200).send(fpath);
   //console.log(req.files); // the uploaded file object
 });
 
