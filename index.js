@@ -31,11 +31,11 @@ app.post("/upload", function(req, res) {
       message: "No file uploaded"
     });
   }
-
-  req.files.filedata.mv(`./uploads/${new Date().getTime()}.wav`);
+  let fpath = `./uploads/${new Date().getTime()}.wav`;
+  req.files.filedata.mv(fpath);
   //avatar.mv("./uploads/" + avatar.name);
   console.log(req.files.filedata);
-  //res.send(req.files);
+  res.send(fpath);
   //console.log(req.files); // the uploaded file object
 });
 
