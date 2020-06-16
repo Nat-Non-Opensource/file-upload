@@ -39,7 +39,7 @@ app.post("/upload", function(req, res) {
     console.log(req.files.filedata);
     console.log(fpath);
     let u = `https://demo.humanist.cc/${fname}.wav`;
-    let t = 1;
+    let t = req.query.type;
     let lat = req.query.lat;
     let lng = req.query.lng;
     var options = {
