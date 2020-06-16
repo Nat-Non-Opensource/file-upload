@@ -38,13 +38,10 @@ app.post("/upload", function(req, res) {
     //avatar.mv("./uploads/" + avatar.name);
     console.log(req.files.filedata);
     console.log(fpath);
-    let u = `https://demo.humanist.cc/${fname}`;
+    let u = `https://demo.humanist.cc/${fname}.wav`;
     let t = 2;
     let lat = "18.7833491";
     let lng = "98.986756";
-    //res.send(req.files);
-    let url = ``;
-
     var options = {
       host: "us-central1-vuemap-1.cloudfunctions.net",
       path: `/sample?url=${u}&lat=${lat}&lng=${lng}&type=${t}`
