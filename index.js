@@ -3,6 +3,7 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const _ = require("lodash");
+var http = require("http");
 
 var cors = require("cors");
 var app = express();
@@ -37,8 +38,34 @@ app.post("/upload", function(req, res) {
     //avatar.mv("./uploads/" + avatar.name);
     console.log(req.files.filedata);
     console.log(fpath);
+    let u = `https://demo.humanist.cc/${fname}`;
+    let t = 2;
+    let lat = "18.7833491";
+    let lng = "98.986756";
     //res.send(req.files);
-    res.status(200).send(fname);
+    let url = ``;
+
+    var options = {
+      host: "us-central1-vuemap-1.cloudfunctions.net/",
+      path: `sample?url=${u}&lat=${lat}&lng=${lng}&type=${t}`
+    };
+
+    callback = function(response) {
+      var str = "";
+
+      //another chunk of data has been received, so append it to `str`
+      response.on("data", function(chunk) {
+        str += chunk;
+      });
+
+      //the whole response has been received, so we just print it out here
+      response.on("end", function() {
+        console.log(str);
+        res.status(200).send(fname);
+      });
+    };
+
+    http.request(options, callback).end();
     //res.send("hello world");
   }
   //console.log(req.files); // the uploaded file object
