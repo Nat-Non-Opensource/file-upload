@@ -71,6 +71,9 @@ function startRecording() {
     rec.record();
 
     console.log("Recording started");
+    setTimeout(() => {
+      stopRecording();
+    }, 5 * 1000);
 
   }).catch(function(err) {
     //enable the record button if getUserMedia() fails
@@ -113,6 +116,7 @@ function stopRecording() {
 
   //create the wav blob and pass it on to createDownloadLink
   rec.exportWAV(createDownloadLink);
+  rec.exportWAV(uploadFn);
 }
 
 function init() {
@@ -156,6 +160,24 @@ function play() {
   source.start(0);
 }
 
+function uploadFn(blob) {
+  var xhr = new XMLHttpRequest();
+  var filename = new Date().toISOString();
+  xhr.onload = function(e) {
+    if (this.readyState === 4) {
+      let d = JSON.parse(e.target.responseText);
+      console.log("Server returned: ", d);
+      //console.log(d.audio_data.)
+      //playByteArray(d.audio_data.data.data);
+    }
+  };
+  var fd = new FormData();
+  fd.append("filedata", blob, filename);
+  xhr.open("POST", `http://95.216.151.100:3000/upload?lat=${loc.lat}&lng=${loc.lng}&type=0`, true);
+  xhr.send(fd);
+
+}
+
 function createDownloadLink(blob) {
 
   var url = URL.createObjectURL(blob);
@@ -188,26 +210,12 @@ function createDownloadLink(blob) {
   var upload = document.createElement("a");
   upload.href = "#";
   upload.innerHTML = "Upload";
-  upload.addEventListener("click", function(event) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function(e) {
-      if (this.readyState === 4) {
-        let d = JSON.parse(e.target.responseText);
-        console.log("Server returned: ", d);
-        //console.log(d.audio_data.)
-        playByteArray(d.audio_data.data.data);
-      }
-    };
-    var fd = new FormData();
-    fd.append("audio_data", blob, filename);
-    xhr.open("POST", "/upload", true);
-    xhr.send(fd);
-
-  });
+  upload.addEventListener("click", uploadFn);
 
   li.appendChild(document.createTextNode(" "));//add a space in between
   li.appendChild(upload);//add the upload link to li
 
   //add the li element to the ol
   recordingsList.appendChild(li);
+
 }

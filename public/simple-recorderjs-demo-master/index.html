@@ -50,57 +50,10 @@
 <div id="formats">Format: start recording to see sample rate</div>
 <p><strong>Recordings:</strong></p>
 <ol id="recordingsList"></ol>
+
 <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <script src="js/app.js"></script>
-<script>
-  var map = L.map("map").fitWorld();
-
-  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw", {
-    maxZoom: 18,
-    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, " +
-      "<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, " +
-      "Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    id: "mapbox/streets-v11",
-    tileSize: 512,
-    zoomOffset: -1
-  }).addTo(map);
-
-  let circle;
-
-  function onLocationFound(e) {
-    var radius = e.accuracy / 2;
-    map.panTo(e.latlng);
-
-    let marker = L.marker(e.latlng, {
-      draggable: true,
-      autoPan: true
-
-    }).addTo(map);
-    //.bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-    circle = L.circle(e.latlng, radius).addTo(map);
-
-    marker.on("dragend", function(e) {
-      let market = e.target;
-      circle.remove();
-      console.log(e, marker.getLatLng());
-      //document.getElementById("latitude").value = marker.getLatLng().lat;
-      //document.getElementById("longitude").value = marker.getLatLng().lng;
-    });
-    console.log(circle);
-  }
-
-  function onLocationError(e) {
-    map.setView(new L.LatLng(18.7867771, 99.0758924), 14);
-    //alert(e.message);
-  }
-
-  map.on("locationfound", onLocationFound);
-  map.on("locationerror", onLocationError);
-  //map.setView(new L.LatLng(18.7867771,99.0758924), 5);
-  map.locate({ setView: true, maxZoom: 13 });
-</script>
-
+<script src="js/mapapp.js"></script>
 </body>
 </html>
