@@ -10,11 +10,13 @@ var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext; //audio context to help us record
 
 var recordButton = document.getElementById("recordButton");
+var recordButton2 = document.getElementById("recordButton2");
 var stopButton = document.getElementById("stopButton");
 var pauseButton = document.getElementById("pauseButton");
 
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
+recordButton2.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
@@ -33,6 +35,7 @@ function startRecording() {
  */
 
   recordButton.disabled = true;
+  recordButton2.innerText = "Recording";
   stopButton.disabled = false;
   pauseButton.disabled = false;
 
@@ -104,6 +107,7 @@ function stopRecording() {
   stopButton.disabled = true;
   recordButton.disabled = false;
   pauseButton.disabled = true;
+  recordButton2.innerText = "Record";
 
   //reset button just in case the recording is stopped while paused
   pauseButton.innerHTML = "Pause";
