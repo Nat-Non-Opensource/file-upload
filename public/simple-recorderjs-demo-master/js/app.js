@@ -44,41 +44,43 @@ function startRecording() {
       https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
   */
 
-  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-    console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(function(stream) {
+      console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
 
-    /*
-      create an audio context after getUserMedia is called
-      sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
-      the sampleRate defaults to the one set in your OS for your playback device
+      /*
+        create an audio context after getUserMedia is called
+        sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
+        the sampleRate defaults to the one set in your OS for your playback device
 
-    */
-    audioContext = new AudioContext();
+      */
+      audioContext = new AudioContext();
 
-    //update the format
-    document.getElementById("formats").innerHTML = "Format: 1 channel pcm @ " + audioContext.sampleRate / 1000 + "kHz";
+      //update the format
+      document.getElementById("formats").innerHTML = "Format: 1 channel pcm @ " + audioContext.sampleRate / 1000 + "kHz";
 
-    /*  assign to gumStream for later use  */
-    gumStream = stream;
+      /*  assign to gumStream for later use  */
+      gumStream = stream;
 
-    /* use the stream */
-    input = audioContext.createMediaStreamSource(stream);
+      /* use the stream */
+      input = audioContext.createMediaStreamSource(stream);
 
-    /*
-      Create the Recorder object and configure to record mono sound (1 channel)
-      Recording 2 channels  will double the file size
-    */
-    rec = new Recorder(input, { numChannels: 1 });
+      /*
+        Create the Recorder object and configure to record mono sound (1 channel)
+        Recording 2 channels  will double the file size
+      */
+      rec = new Recorder(input, { numChannels: 1 });
 
-    //start the recording process
-    rec.record();
+      //start the recording process
+      rec.record();
 
-    console.log("Recording started");
-    setTimeout(() => {
-      stopRecording();
-    }, 5 * 1000);
+      console.log("Recording started");
+      setTimeout(() => {
+        stopRecording();
+      }, 5 * 1000);
 
-  }).catch(function(err) {
+    }).catch(function(err) {
     //enable the record button if getUserMedia() fails
     recordButton.disabled = false;
     stopButton.disabled = true;
