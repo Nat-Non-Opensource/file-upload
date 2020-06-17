@@ -173,7 +173,7 @@ function uploadFn(blob) {
   };
   var fd = new FormData();
   fd.append("filedata", blob, filename);
-  xhr.open("POST", `http://95.216.151.100:3000/upload?lat=${loc.lat}&lng=${loc.lng}&type=0`, true);
+  xhr.open("POST", `/upload?lat=${loc.lat}&lng=${loc.lng}&type=0`, true);
   xhr.send(fd);
 
 }
