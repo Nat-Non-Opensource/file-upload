@@ -34,20 +34,20 @@ function startRecording() {
      Disable the record button until we get a success or fail from getUserMedia()
  */
 
-  recordButton.disabled = true;
-  recordButton2.innerText = "Recording";
-  stopButton.disabled = false;
-  pauseButton.disabled = false;
-
   /*
       We're using the standard promise based getUserMedia()
       https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
   */
 
+  //navigator.mediaDevices.getUserMedia()
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(function(stream) {
       console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+      recordButton.disabled = true;
+      recordButton2.innerText = "Recording";
+      stopButton.disabled = false;
+      pauseButton.disabled = false;
 
       /*
         create an audio context after getUserMedia is called
