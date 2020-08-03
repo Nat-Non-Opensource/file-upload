@@ -1,44 +1,24 @@
-name: deploy-cloudrun Unit
+name: deploy-cloudrun dockerHub
 
 on:
   push:
-    paths:
-    - 'deploy-cloudrun/**'
-  pull_request:
-    paths:
-    - 'deploy-cloudrun/**'
 
 jobs:
   run:
-    name: test
+    name: Build it!
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
-    steps:
-    - uses: actions/checkout@v2
+        operating-system: [ubuntu-latest]
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v2
 
-    - uses: actions/setup-node@master
-      with:
-        node-version: 12.x
-
-    - name: npm install
-      run: npm install
-      working-directory: ./deploy-cloudrun
-
-    - name: npm lint
-      run: npm run lint
-      working-directory: ./deploy-cloudrun
-
-    - uses: ./setup-gcloud
-      with:
-        service_account_email: ${{ secrets.DEPLOY_CLOUDRUN_SA_EMAIL }}
-        service_account_key: ${{ secrets.DEPLOY_CLOUDRUN_SA_KEY_B64 }}
-        export_default_credentials: true
-    - name: npm test
-      run: npm run test
-      working-directory: ./deploy-cloudrun
-      env:
-        TEST_DEPLOY_CLOUDRUN_CREDENTIALS: ${{ secrets.DEPLOY_CLOUDRUN_SA_KEY_B64 }}
-        TEST_DEPLOY_CLOUDRUN_PROJECT: ${{ secrets.DEPLOY_CLOUDRUN_PROJECT_ID }}
-        GCLOUD_PROJECT: ${{ secrets.DEPLOY_CLOUDRUN_PROJECT_ID }}
+  - name: Build and push Docker images
+    uses: docker/build-push-action@v1
+    with:
+      username: ${{ secrets.DOCKER_USERNAME }}
+      password: ${{ secrets.DOCKER_PASSWORD }}
+      repository: nazt/myrepository
+      # tag_with_ref: true
+      # push: ${{ startsWith(github.ref, 'refs/tags/') }}
