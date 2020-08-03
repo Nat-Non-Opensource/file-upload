@@ -20,5 +20,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: nazt/myrepository
+          tags: latest          
           # tag_with_ref: true
           # push: ${{ startsWith(github.ref, 'refs/tags/') }}
