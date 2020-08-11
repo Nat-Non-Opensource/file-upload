@@ -8,25 +8,25 @@ env:
   RUN_REGION: us-central1
   SERVICE_NAME: artisan-parking
 jobs:
-  # run:
-  #   name: Build it!
-  #   runs-on: ${{ matrix.operating-system }}
-  #   strategy:
-  #     matrix:
-  #       operating-system: [ubuntu-latest]
+  run:
+    name: Build it!
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #     - name: Build and push Docker images
-  #       uses: docker/build-push-action@v1
-  #       with:
-  #         username: ${{ secrets.DOCKER_USERNAME }}
-  #         password: ${{ secrets.DOCKER_PASSWORD }}
-  #         repository: nazt/myrepository
-  #         tag_with_ref: true
-  #         tag_with_sha: true
-  #         tags: latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: nazt/myrepository
+          tag_with_ref: true
+          tag_with_sha: true
+          tags: latest
 
   setup-build-deploy:
     name: Setup, Build, and Deploy
