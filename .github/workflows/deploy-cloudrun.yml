@@ -3,6 +3,11 @@ name: deploy-cloudrun dockerHub
 on:
   push:
 
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  RUN_REGION: us-central1
+  SERVICE_NAME: super-simple-service
+
 jobs:
   run:
     name: Build it!
