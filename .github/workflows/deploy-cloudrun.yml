@@ -1,4 +1,4 @@
-name: deploy-cloudrun dockerHub
+name: deploy-cloudrun
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   RUN_REGION: us-central1
-  SERVICE_NAME: super-simple-service
+  SERVICE_NAME: artisan-parking
 jobs:
   # run:
   #   name: Build it!
