@@ -21,7 +21,38 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: nazt/myrepository
           tag_with_ref: true
-          tag_with_sha: true          
-          tags: latest          
-          # tag_with_ref: true
-          # push: ${{ startsWith(github.ref, 'refs/tags/') }}
+          tag_with_sha: true
+          tags: latest
+
+  setup-build-deploy:
+    name: Setup, Build, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "275.0.0"
+          service_account_email: ${{ secrets.SA_EMAIL }}
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+
+      # Configure gcloud CLI
+      - name: gcloud Set up
+        run: |
+          gcloud config set project $PROJECT_ID
+      # Build and push image to Google Container Registry
+      - name: Build
+        run: |
+          gcloud builds submit -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
+      # Deploy image to Cloud Run
+      - name: Deploy
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --region $RUN_REGION \
+            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
+            --platform managed
+      # tag_with_ref: true
+      # push: ${{ startsWith(github.ref, 'refs/tags/') }}
