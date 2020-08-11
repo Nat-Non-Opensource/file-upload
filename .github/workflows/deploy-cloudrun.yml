@@ -6,9 +6,9 @@ on:
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   RUN_REGION: us-central1
-  SERVICE_NAME: artisan-parking
+  SERVICE_NAME: nn-test
 jobs:
-  run:
+  build-docker-hub:
     name: Build it!
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -26,7 +26,7 @@ jobs:
           repository: nazt/myrepository
           tag_with_ref: true
           tag_with_sha: true
-          tags: latest
+          tags: lates
 
   setup-build-deploy:
     name: Setup, Build, and Deploy
